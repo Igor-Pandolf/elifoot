@@ -1,6 +1,6 @@
 package dev.java10x.elifoot.service;
 
-import dev.java10x.elifoot.controller.mapper.StadiumMapper;
+import dev.java10x.elifoot.mapper.StadiumMapper;
 import dev.java10x.elifoot.controller.request.StadiumRequest;
 import dev.java10x.elifoot.controller.response.StadiumResponse;
 import dev.java10x.elifoot.entity.Stadium;
@@ -13,9 +13,10 @@ import org.springframework.stereotype.Service;
 public class CreateStadiumService {
 
     private final StadiumRepository stadiumRepository;
+    private final StadiumMapper stadiumMapper;
 
     public StadiumResponse execute(StadiumRequest request) {
-        Stadium savedStadium = stadiumRepository.save(StadiumMapper.toStatium(request));
-        return StadiumMapper.toStatiumResponse(savedStadium);
+        Stadium savedStadium = stadiumRepository.save(stadiumMapper.toStatium(request));
+        return stadiumMapper.toStatiumResponse(savedStadium);
     }
 }
