@@ -23,9 +23,8 @@ public class FindClubService {
                 .map(clubMapper::toClubResponse);
     }
 
-    public ClubDetailResponse findById(Long id) {
-        Club club = clubRepository.findById(id)
+    public Club findById(Long id) {
+        return clubRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Club not found for id: " + id));
-        return clubMapper.toClubDetailResponse(club);
     }
 }

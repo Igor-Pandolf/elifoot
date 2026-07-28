@@ -1,0 +1,33 @@
+package dev.java10x.elifoot.service;
+
+import dev.java10x.elifoot.controller.response.PlayerDetailResponse;
+import dev.java10x.elifoot.controller.response.PlayerResponse;
+import dev.java10x.elifoot.entity.Player;
+import dev.java10x.elifoot.exception.ResourceNotFoundException;
+import dev.java10x.elifoot.mapper.PlayerMapper;
+import dev.java10x.elifoot.repository.PlayerRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class FindPlayerService {
+
+    private final PlayerRepository playerRepository;
+    private final PlayerMapper playerMapper;
+
+    public Page<PlayerResponse> findAll(Pageable pageable) {
+        return playerRepository.findAll(pageable)
+                .map(playerMapper::toPlayerResponse);
+    }
+
+    public PlayerDetailResponse findById(Long id) {
+        Player player = playerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Club not found for id: " + id));
+        return playerMapper.toPlayerDetailResponse(player);
+    }
+}
