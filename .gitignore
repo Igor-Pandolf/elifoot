@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+authz.pem
+authz.pub
