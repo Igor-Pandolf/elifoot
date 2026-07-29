@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,5 +30,12 @@ public class FindPlayerService {
         Player player = playerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Club not found for id: " + id));
         return playerMapper.toPlayerDetailResponse(player);
+    }
+
+    public List<PlayerResponse> findPlayerByClub(Long id){
+        return playerRepository.findPlayerByClubId(id)
+                .stream()
+                .map(playerMapper::toPlayerResponse)
+                .toList();
     }
 }
