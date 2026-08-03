@@ -17,6 +17,6 @@ public class LoginController {
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public LoginResponse login(@RequestBody LoginRequest request){
-
+        return loginService.login(request);
     }
 }

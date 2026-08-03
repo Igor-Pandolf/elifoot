@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,12 +29,14 @@ public class ClubController {
     private final FindPlayerService findPlayerService;
     private final ClubMapper clubMapper;
 
+    @PreAuthorize("hasAnyAuthority('SCOPE_club:read', 'SCOPE_admin:all')")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public Page<ClubResponse> findAll(Pageable pageable) {
         return findClubService.findAll(pageable);
     }
 
+    @PreAuthorize("hasAnyAuthority('SCOPE_club:read', 'SCOPE_admin:all')")
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ClubDetailResponse findById(@PathVariable Long id) {
@@ -41,12 +44,14 @@ public class ClubController {
         return clubMapper.toClubDetailResponse(club);
     }
 
+    @PreAuthorize("hasAnyAuthority('SCOPE_club:write', 'SCOPE_admin:all')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ClubDetailResponse create(@Valid @RequestBody CreateClubRequest request) {
         return createClubService.execute(request);
     }
 
+    @PreAuthorize("hasAnyAuthority('SCOPE_club:read', 'SCOPE_admin:all')")
     @GetMapping("/{id}/players")
     @ResponseStatus(HttpStatus.OK)
     public List<PlayerResponse> findPlayerByClub(@PathVariable Long id) {
