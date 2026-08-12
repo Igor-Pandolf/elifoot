@@ -103,7 +103,6 @@ class CreateClubServiceTest {
                 .build();
 
         Mockito.when(clubMapper.toClub(request)).thenReturn(club);
-        Mockito.when(findStadiumService.findById(stadium.getId())).thenReturn(stadium);
 
         createClubService.execute(request);
 
